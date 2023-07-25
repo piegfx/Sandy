@@ -26,8 +26,6 @@ public class MyApp : SandyApp
     protected override void Update(Time time, Input input)
     {
         base.Update(time, input);
-        
-        Console.WriteLine(input.MouseDelta);
 
         _rotation += 1 * (float) time.DeltaTime.TotalSeconds;
         _rotation = MathHelper.Wrap(_rotation, 0, MathF.Tau);
@@ -57,7 +55,14 @@ public class MyApp : SandyApp
             _rotation, Vector2.One, new Vector2(textureSize.Width, textureSize.Height) / 2);
         spriteRenderer.End();
     }
-    
+
+    public override void Dispose()
+    {
+        _texture.Dispose();
+        
+        base.Dispose();
+    }
+
     private void WindowOnResize(Size<int> size)
     {
         Renderer.Resize(size);

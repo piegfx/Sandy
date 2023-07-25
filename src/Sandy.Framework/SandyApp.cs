@@ -87,7 +87,7 @@ public abstract class SandyApp : IDisposable
 
     protected virtual void Draw(Time time, Input input) { }
 
-    public void Dispose()
+    public virtual void Dispose()
     {
         Renderer.Dispose();
         Window.Dispose();

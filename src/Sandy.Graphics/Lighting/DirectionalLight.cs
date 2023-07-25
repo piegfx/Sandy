@@ -7,26 +7,16 @@ namespace Sandy.Graphics.Lighting;
 
 public struct DirectionalLight : ILight
 {
-    private Vector2 _direction;
+    private Quaternion _direction;
 
-    private Vector3 _position;
+    private Vector3 _forward;
 
-    public Vector2 Direction
+    public Quaternion Direction
     {
         get => _direction;
         set
         {
-            float sinTheta = MathF.Cos(value.X);
-            float cosTheta = MathF.Cos(value.X);
-            float sinPhi = MathF.Sin(value.Y);
-            float cosPhi = MathF.Cos(value.Y);
-
-            _position = new Vector3()
-            {
-                X = sinPhi * cosTheta,
-                Y = cosPhi,
-                Z = sinPhi * sinTheta
-            };
+            _forward = Vector3.Transform(-Vector3.UnitZ, value);
 
             _direction = value;
         }
@@ -38,7 +28,7 @@ public struct DirectionalLight : ILight
 
     public DirectionalLight()
     {
-        Direction = new Vector2(MathHelper.PiOver2, MathHelper.PiOver2);
+        Direction = Quaternion.CreateFromAxisAngle(Vector3.UnitX, -MathHelper.PiOver2);
         
         Color = Color.White;
     }
@@ -47,6 +37,6 @@ public struct DirectionalLight : ILight
     {
         Type = LightInfo.LightType.Directional,
         Color = Color,
-        Position = _position
+        Position = _forward
     };
 }
