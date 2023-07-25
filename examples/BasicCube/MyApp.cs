@@ -75,7 +75,7 @@ public class MyApp : SandyApp
             Direction = Quaternion.Identity
         };
 
-        // Send our cube into the draw cube. It will not actually be drawn yet.
+        // Send our cube into the draw queue. It will not actually be drawn yet.
         Renderer.DrawOpaque(_cube, Matrix4x4.CreateFromQuaternion(_rotation));
 
         Size<int> winSize = Window.FramebufferSize;
