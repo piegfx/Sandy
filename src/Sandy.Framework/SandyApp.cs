@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Numerics;
 using Pie;
 using Pie.Windowing;
 using Pie.Windowing.Events;
@@ -45,6 +46,9 @@ public abstract class SandyApp : IDisposable
         Window.Quit += Close;
         Window.KeyDown += WindowOnKeyDown;
         Window.KeyUp += WindowOnKeyUp;
+        Window.MouseButtonDown += WindowOnMouseButtonDown;
+        Window.MouseButtonUp += WindowOnMouseButtonUp;
+        Window.MouseMove += WindowOnMouseMove;
 
         Renderer = new Renderer(gd);
 
@@ -57,6 +61,8 @@ public abstract class SandyApp : IDisposable
         while (!_wantsClose)
         {
             _input.PerFrameKeys.Clear();
+            _input.PerFrameButtons.Clear();
+            _input.MouseDelta = Vector2.Zero;
             Window.ProcessEvents();
 
             Time time = new Time(deltaWatch.Elapsed, totalWatch.Elapsed);
@@ -69,7 +75,7 @@ public abstract class SandyApp : IDisposable
             Renderer.Present();
         }
     }
-    
+
     public void Close()
     {
         _wantsClose = true;
@@ -99,6 +105,24 @@ public abstract class SandyApp : IDisposable
     {
         _input.KeysDown.Remove(key);
         _input.PerFrameKeys.Remove(key);
+    }
+    
+    private void WindowOnMouseButtonDown(MouseButton button)
+    {
+        _input.ButtonsDown.Add(button);
+        _input.PerFrameButtons.Add(button);
+    }
+    
+    private void WindowOnMouseButtonUp(MouseButton button)
+    {
+        _input.ButtonsDown.Remove(button);
+        _input.PerFrameButtons.Remove(button);
+    }
+    
+    private void WindowOnMouseMove(Vector2 position, Vector2 delta)
+    {
+        _input.MousePosition = position;
+        _input.MouseDelta += delta;
     }
 
     public static SandyApp Instance { get; private set; }

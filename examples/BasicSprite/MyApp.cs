@@ -27,6 +27,8 @@ public class MyApp : SandyApp
     {
         base.Update(time, input);
         
+        Console.WriteLine(input.MouseDelta);
+
         _rotation += 1 * (float) time.DeltaTime.TotalSeconds;
         _rotation = MathHelper.Wrap(_rotation, 0, MathF.Tau);
         
