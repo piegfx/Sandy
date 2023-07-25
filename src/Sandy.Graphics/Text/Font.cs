@@ -112,5 +112,5 @@ public class Font : IDisposable
     }
 
     public static readonly Font Roboto = new Font(EmbeddedResource.Load(Assembly.GetExecutingAssembly(),
-        "Sandcastle.Graphics.Text.Roboto-Regular.ttf"));
+        "Sandy.Graphics.Text.Roboto-Regular.ttf"));
 }

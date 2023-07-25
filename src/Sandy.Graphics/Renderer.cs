@@ -91,7 +91,7 @@ public class Renderer : IDisposable
             if (_renderPassFont == null)
             {
                 _renderPassFont = new Font(EmbeddedResource.Load(Assembly.GetExecutingAssembly(),
-                    "Sandcastle.Graphics.Text.Roboto-Regular.ttf"));
+                    "Sandy.Graphics.Text.Roboto-Regular.ttf"));
             }
 
             SpriteRenderer.Begin();
@@ -169,12 +169,17 @@ public class Renderer : IDisposable
 
     public void Present()
     {
+        // TODO: This looks like its a bug in Pie's opengl implementation.
+        // Shouldn't need to set framebuffer to null here, if you bypass the renderer and use the graphics device
+        // directly, it should render fine. But nothing is rendered. Does not happen under Direct3D.
+        Device.SetFramebuffer(null);
         Device.Present(VSync ? 1 : 0);
     }
 
     public void Resize(Size<int> newSize)
     {
         Device.ResizeSwapchain((System.Drawing.Size) newSize);
+        Device.Viewport = new System.Drawing.Rectangle(0, 0, newSize.Width, newSize.Height);
         Renderer3D.Resize(newSize);
 
         _renderPassTextures = null;
@@ -202,7 +207,7 @@ public class Renderer : IDisposable
 
     public static Renderer Instance { get; private set; }
 
-    public const string ShaderNamespace = "Sandcastle.Graphics.Shaders";
+    public const string ShaderNamespace = "Sandy.Graphics.Shaders";
 
     public delegate void OnLog(LogType type, string message);
 }

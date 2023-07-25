@@ -12,7 +12,8 @@ public abstract class SandyApp : IDisposable
 {
     private AppOptions _options;
     private bool _wantsClose;
-    
+    private Input _input;
+
     public Window Window;
 
     public Renderer Renderer;
@@ -37,36 +38,38 @@ public abstract class SandyApp : IDisposable
             .Title(_options.Title)
             .FullscreenMode(_options.FullscreenMode);
 
-        Window = builder.Build(out GraphicsDevice gd);
+        if (_options.Resizable)
+            builder.Resizable();
+
+        Window = new Window(builder.Build(out GraphicsDevice gd));
+        Window.Quit += Close;
+        Window.KeyDown += WindowOnKeyDown;
+        Window.KeyUp += WindowOnKeyUp;
 
         Renderer = new Renderer(gd);
-        
+
         Initialize();
         
         Stopwatch deltaWatch = Stopwatch.StartNew();
         Stopwatch totalWatch = Stopwatch.StartNew();
+        _input = new Input();
 
         while (!_wantsClose)
         {
-            while (Window.PollEvent(out IWindowEvent winEvent))
-            {
-                switch (winEvent)
-                {
-                    case QuitEvent:
-                        _wantsClose = true;
-                        break;
-                }
-            }
+            _input.PerFrameKeys.Clear();
+            Window.ProcessEvents();
 
             Time time = new Time(deltaWatch.Elapsed, totalWatch.Elapsed);
+
+            deltaWatch.Restart();
             
-            Update(time);
-            Draw(time);
-            
+            Update(time, _input);
+            Draw(time, _input);
+
             Renderer.Present();
         }
     }
-
+    
     public void Close()
     {
         _wantsClose = true;
@@ -74,9 +77,9 @@ public abstract class SandyApp : IDisposable
 
     protected virtual void Initialize() { }
 
-    protected virtual void Update(Time time) { }
+    protected virtual void Update(Time time, Input input) { }
 
-    protected virtual void Draw(Time time) { }
+    protected virtual void Draw(Time time, Input input) { }
 
     public void Dispose()
     {
@@ -84,6 +87,18 @@ public abstract class SandyApp : IDisposable
         Window.Dispose();
         
         Instance = null;
+    }
+    
+    private void WindowOnKeyDown(Key key)
+    {
+        _input.KeysDown.Add(key);
+        _input.PerFrameKeys.Add(key);
+    }
+    
+    private void WindowOnKeyUp(Key key)
+    {
+        _input.KeysDown.Remove(key);
+        _input.PerFrameKeys.Remove(key);
     }
 
     public static SandyApp Instance { get; private set; }

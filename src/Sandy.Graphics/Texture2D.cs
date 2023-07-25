@@ -73,5 +73,5 @@ public class Texture2D : IDisposable
 
     public static readonly Texture2D Debug =
         new Texture2D(new Bitmap(EmbeddedResource.Load(Assembly.GetExecutingAssembly(),
-            "Sandcastle.Graphics.DEBUG.png")));
+            "Sandy.Graphics.DEBUG.png")));
 }
