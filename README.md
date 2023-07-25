@@ -1,5 +1,5 @@
 # Sandy Framework
-The Sandy Framework is a modern application framework and render engine, designed for applications requiring advanced 
+The Sandy Framework is a modern application framework and render engine for .NET 7, designed for applications requiring advanced 
 2D and 3D rendering.
 
 **NOTE:** Sandy is currently early in development. Originally designed for the Sandcastle game engine, we have decided to make
