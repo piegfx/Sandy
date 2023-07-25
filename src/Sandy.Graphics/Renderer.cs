@@ -4,7 +4,9 @@ using System.Linq;
 using System.Numerics;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using Microsoft.VisualBasic.CompilerServices;
 using Pie;
+using Sandy.Graphics.Exceptions;
 using Sandy.Graphics.Lighting;
 using Sandy.Graphics.Renderers;
 using Sandy.Graphics.Renderers.Structs;
@@ -88,7 +90,7 @@ public class Renderer : IDisposable
             
             if (_renderPassFont == null)
             {
-                _renderPassFont = new Font(Utils.LoadEmbeddedResource(Assembly.GetExecutingAssembly(),
+                _renderPassFont = new Font(EmbeddedResource.Load(Assembly.GetExecutingAssembly(),
                     "Sandcastle.Graphics.Text.Roboto-Regular.ttf"));
             }
 

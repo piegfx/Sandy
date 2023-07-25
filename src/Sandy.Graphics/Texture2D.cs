@@ -1,5 +1,6 @@
 using System;
 using System.Reflection;
+using Microsoft.VisualBasic.CompilerServices;
 using Pie;
 using Sandy.Math;
 
@@ -71,6 +72,6 @@ public class Texture2D : IDisposable
         EmptyNormal = new Texture2D(new Size<int>(1, 1), new byte[] { 128, 128, 255, 255 });
 
     public static readonly Texture2D Debug =
-        new Texture2D(new Bitmap(Utils.LoadEmbeddedResource(Assembly.GetExecutingAssembly(),
+        new Texture2D(new Bitmap(EmbeddedResource.Load(Assembly.GetExecutingAssembly(),
             "Sandcastle.Graphics.DEBUG.png")));
 }

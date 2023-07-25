@@ -1,5 +1,6 @@
 using System.Numerics;
 using System.Reflection;
+using Microsoft.VisualBasic.CompilerServices;
 using Pie;
 using Pie.ShaderCompiler;
 using Sandy.Graphics.Renderers.Structs;
@@ -56,8 +57,8 @@ public sealed class DeferredRenderer : Renderer3D
         
         Assembly assembly = Assembly.GetExecutingAssembly();
         
-        byte[] vertSpv = Utils.LoadEmbeddedResource(assembly, Renderer.ShaderNamespace + ".Render.Deferred.GBuffer_vert.spv");
-        byte[] fragSpv = Utils.LoadEmbeddedResource(assembly, Renderer.ShaderNamespace + ".Render.Deferred.GBuffer_frag.spv");
+        byte[] vertSpv = EmbeddedResource.Load(assembly, Renderer.ShaderNamespace + ".Render.Deferred.GBuffer_vert.spv");
+        byte[] fragSpv = EmbeddedResource.Load(assembly, Renderer.ShaderNamespace + ".Render.Deferred.GBuffer_frag.spv");
         _gBufferShader = device.CreateShader(new[]
         {
             new ShaderAttachment(ShaderStage.Vertex, vertSpv, "VertexShader"),
@@ -76,8 +77,8 @@ public sealed class DeferredRenderer : Renderer3D
         });
         
         Renderer.Instance.LogMessage(LogType.Debug, "Creating light pass shader.");
-        vertSpv = Utils.LoadEmbeddedResource(assembly, Renderer.ShaderNamespace + ".Render.Deferred.LightPass_vert.spv");
-        fragSpv = Utils.LoadEmbeddedResource(assembly, Renderer.ShaderNamespace + ".Render.Deferred.LightPass_frag.spv");
+        vertSpv = EmbeddedResource.Load(assembly, Renderer.ShaderNamespace + ".Render.Deferred.LightPass_vert.spv");
+        fragSpv = EmbeddedResource.Load(assembly, Renderer.ShaderNamespace + ".Render.Deferred.LightPass_frag.spv");
 
         _lightPassShader = device.CreateShader(new[]
         {

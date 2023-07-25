@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using System.Numerics;
 using System.Reflection;
+using Microsoft.VisualBasic.CompilerServices;
 using Sandy.Graphics.Renderers;
 using Sandy.Math;
 
@@ -110,6 +111,6 @@ public class Font : IDisposable
         _assistant.Dispose();
     }
 
-    public static readonly Font Roboto = new Font(Utils.LoadEmbeddedResource(Assembly.GetExecutingAssembly(),
+    public static readonly Font Roboto = new Font(EmbeddedResource.Load(Assembly.GetExecutingAssembly(),
         "Sandcastle.Graphics.Text.Roboto-Regular.ttf"));
 }

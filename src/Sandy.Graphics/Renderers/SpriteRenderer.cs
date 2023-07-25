@@ -2,8 +2,10 @@ using System;
 using System.Numerics;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using Microsoft.VisualBasic.CompilerServices;
 using Pie;
 using Pie.ShaderCompiler;
+using Sandy.Graphics.Exceptions;
 using Sandy.Math;
 
 namespace Sandy.Graphics.Renderers;
@@ -58,8 +60,8 @@ public sealed class SpriteRenderer : IDisposable
         _spriteMatricesBuffer = device.CreateBuffer(BufferType.UniformBuffer, Matrix4x4.Identity, true);
         
         Assembly assembly = Assembly.GetExecutingAssembly();
-        byte[] vertSpv = Utils.LoadEmbeddedResource(assembly, Renderer.ShaderNamespace + ".Sprite.Sprite_vert.spv");
-        byte[] fragSpv = Utils.LoadEmbeddedResource(assembly, Renderer.ShaderNamespace + ".Sprite.Sprite_frag.spv");
+        byte[] vertSpv = EmbeddedResource.Load(assembly, Renderer.ShaderNamespace + ".Sprite.Sprite_vert.spv");
+        byte[] fragSpv = EmbeddedResource.Load(assembly, Renderer.ShaderNamespace + ".Sprite.Sprite_frag.spv");
 
         _shader = device.CreateShader(new[]
         {
