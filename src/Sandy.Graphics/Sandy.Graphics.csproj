@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>disable</ImplicitUsings>
+        <Nullable>disable</Nullable>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Pie\src\Pie.Text\Pie.Text.csproj" />
+      <ProjectReference Include="..\..\Pie\src\Pie\Pie.csproj" />
+      <ProjectReference Include="..\Sandy.Core\Sandy.Core.csproj" />
+      <ProjectReference Include="..\Sandy.Math\Sandy.Math.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Silk.NET.Assimp" Version="2.17.1" />
+      <PackageReference Include="StbImageSharp" Version="2.27.13" />
+    </ItemGroup>
+    
+    <ItemGroup>
+        <EmbeddedResource Include="Shaders/**/*.spv" />
+        <EmbeddedResource Include="DEBUG.png" />
+        <None Remove="Text\Roboto-Regular.ttf" />
+        <EmbeddedResource Include="Text\Roboto-Regular.ttf" />
+    </ItemGroup>
+
+</Project>

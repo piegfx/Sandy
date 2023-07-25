@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+#
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sandy.Graphics", "src\Sandy.Graphics\Sandy.Graphics.csproj", "{4245E1B4-B285-4160-B975-13F64F0C95D1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Pie", "Pie", "{DD1CDEEC-5FCF-4580-9E2C-52CCBAB3E61C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6630BF32-E4B5-4FA9-8D2D-FA9EE97F195E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pie", "Pie\src\Pie\Pie.csproj", "{CF6AF458-1A4F-4414-82EA-0FDD0C4C2583}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pie.Windowing", "Pie\src\Pie.Windowing\Pie.Windowing.csproj", "{C1C7EDE7-DE40-4C48-90AD-A68B70E26C11}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4245E1B4-B285-4160-B975-13F64F0C95D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4245E1B4-B285-4160-B975-13F64F0C95D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4245E1B4-B285-4160-B975-13F64F0C95D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4245E1B4-B285-4160-B975-13F64F0C95D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF6AF458-1A4F-4414-82EA-0FDD0C4C2583}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF6AF458-1A4F-4414-82EA-0FDD0C4C2583}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF6AF458-1A4F-4414-82EA-0FDD0C4C2583}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF6AF458-1A4F-4414-82EA-0FDD0C4C2583}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1C7EDE7-DE40-4C48-90AD-A68B70E26C11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1C7EDE7-DE40-4C48-90AD-A68B70E26C11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1C7EDE7-DE40-4C48-90AD-A68B70E26C11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1C7EDE7-DE40-4C48-90AD-A68B70E26C11}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6630BF32-E4B5-4FA9-8D2D-FA9EE97F195E} = {DD1CDEEC-5FCF-4580-9E2C-52CCBAB3E61C}
+		{CF6AF458-1A4F-4414-82EA-0FDD0C4C2583} = {6630BF32-E4B5-4FA9-8D2D-FA9EE97F195E}
+		{C1C7EDE7-DE40-4C48-90AD-A68B70E26C11} = {6630BF32-E4B5-4FA9-8D2D-FA9EE97F195E}
+	EndGlobalSection
+EndGlobal

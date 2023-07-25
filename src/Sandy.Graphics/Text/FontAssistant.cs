@@ -1,0 +1,119 @@
+using System;
+using System.Collections.Generic;
+using Pie.Text;
+using Sandy.Core;
+using Sandy.Math;
+using FtChar = Pie.Text.Character;
+
+namespace Sandy.Graphics.Text;
+
+internal class FontAssistant : IDisposable
+{
+    public static readonly FreeType FreeType;
+
+    private Face _face;
+
+    public Texture2D[] Textures;
+    private uint _currentTexture;
+
+    private Vector2T<int> _currentPosition;
+    private uint _largestCharOnRow;
+
+    private Dictionary<(char, uint), Character> _characters;
+
+    private Size<int> _textureSize;
+
+    private const int Padding = 2;
+
+    static FontAssistant()
+    {
+        FreeType = new FreeType();
+    }
+
+    public FontAssistant(byte[] data)
+    {
+        _face = FreeType.CreateFace(data, 0);
+
+        Textures = new Texture2D[4];
+        _currentTexture = 0;
+
+        _characters = new Dictionary<(char, uint), Character>();
+
+        _textureSize = new Size<int>(1024, 1024);
+        Textures[0] = new Texture2D(_textureSize, null);
+    }
+
+    public Character GetCharacter(char c, uint size)
+    {
+        if (!_characters.TryGetValue((c, size), out Character character))
+        {
+            Logger.Debug($"Creating character '{c}'.");
+            
+            _face.Size = (int) size;
+            FtChar chr = _face.Characters[c];
+
+            Size<int> chrSize = new Size<int>(chr.Width, chr.Height);
+            
+            if (chr.Height > _largestCharOnRow)
+                _largestCharOnRow = (uint) chr.Height;
+            
+            if (_currentPosition.X + chr.Width >= _textureSize.Width)
+            {
+                _currentPosition.Y += (int) _largestCharOnRow + Padding;
+                _currentPosition.X = 0;
+
+                _largestCharOnRow = 0;
+
+                if (_currentPosition.Y + chr.Height >= _textureSize.Height)
+                {
+                    _currentTexture++;
+                    _currentPosition = Vector2T<int>.Zero;
+                    
+                    Logger.Debug($"Creating new font texture with size {_textureSize}.");
+
+                    Texture2D fontTexture = new Texture2D(_textureSize, null);
+
+                    if (Textures.Length <= _currentTexture)
+                    {
+                        Logger.Debug("Resizing font texture array.");
+                        Array.Resize(ref Textures, Textures.Length << 1);
+                    }
+
+                    Textures[_currentTexture] = fontTexture;
+                }
+            }
+            
+            character = new Character
+            {
+                Size = chrSize,
+                Bearing = new Vector2T<int>(chr.BitmapLeft, chr.BitmapTop),
+                Advance = chr.Advance,
+                Texture = _currentTexture,
+                SourceRect = new Rectangle<int>(_currentPosition, chrSize)
+            };
+
+            Textures[_currentTexture].Update(_currentPosition.X, _currentPosition.Y, chr.Width, chr.Height, chr.Bitmap);
+
+            _currentPosition.X += chr.Width + Padding;
+
+            _characters.Add((c, size), character);
+        }
+
+        return character;
+    }
+
+    public void Dispose()
+    {
+        _face.Dispose();
+    }
+
+    public struct Character
+    {
+        public Size<int> Size;
+        public Vector2T<int> Bearing;
+        public int Advance;
+
+        public uint Texture;
+        public Rectangle<int> SourceRect;
+    }
+}
