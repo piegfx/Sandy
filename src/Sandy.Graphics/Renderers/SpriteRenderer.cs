@@ -4,8 +4,6 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using Pie;
 using Pie.ShaderCompiler;
-using Sandy.Core;
-using Sandy.Core.Exceptions;
 using Sandy.Math;
 
 namespace Sandy.Graphics.Renderers;

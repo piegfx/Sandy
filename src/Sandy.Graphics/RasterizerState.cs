@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Pie;
-using Sandy.Core;
 
 namespace Sandy.Graphics;
 
@@ -21,7 +20,7 @@ public class RasterizerState : IDisposable
         if (_cachedStates.TryGetValue(description, out PieState))
             return;
         
-        Logger.Debug("Creating new rasterizer state.");
+        Renderer.Instance.LogMessage(LogType.Debug, "Creating new rasterizer state.");
         
         GraphicsDevice device = Renderer.Instance.Device;
             

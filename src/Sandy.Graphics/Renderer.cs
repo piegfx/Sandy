@@ -5,8 +5,6 @@ using System.Numerics;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using Pie;
-using Sandy.Core;
-using Sandy.Core.Exceptions;
 using Sandy.Graphics.Lighting;
 using Sandy.Graphics.Renderers;
 using Sandy.Graphics.Renderers.Structs;
@@ -18,6 +16,8 @@ namespace Sandy.Graphics;
 
 public class Renderer : IDisposable
 {
+    public event OnLog Log;
+    
     private List<(Renderable, Matrix4x4)> _opaques;
 
     private GraphicsBuffer _cameraMatricesBuffer;
@@ -42,25 +42,27 @@ public class Renderer : IDisposable
         Device = device;
         Instance = this;
 
+        Log = delegate { };
+
         VSync = vsync;
         
-        Logger.Info($"Adapter info:\n    Adapter: {device.Adapter.Name}");
+        LogMessage(LogType.Info, $"Adapter info:\n    Adapter: {device.Adapter.Name}");
         
-        Logger.Debug("Creating sprite renderer.");
+        LogMessage(LogType.Debug, "Creating sprite renderer.");
         SpriteRenderer = new SpriteRenderer(device);
         
-        Logger.Debug("Creating renderer impl (deferred renderer).");
+        LogMessage(LogType.Debug, "Creating renderer impl (deferred renderer).");
         Renderer3D = new DeferredRenderer((Size<int>) device.Swapchain.Size);
 
-        Logger.Debug("Creating renderer settings.");
+        LogMessage(LogType.Debug, "Creating renderer settings.");
         Settings = new RendererSettings(0.03f);
 
         _opaques = new List<(Renderable, Matrix4x4)>();
 
-        Logger.Debug("Creating camera matrices buffer.");
+        LogMessage(LogType.Debug, "Creating camera matrices buffer.");
         _cameraMatricesBuffer = device.CreateBuffer(BufferType.UniformBuffer, (uint) Unsafe.SizeOf<CameraMatrices>(), true);
         
-        Logger.Debug("Creating scene info buffer.");
+        LogMessage(LogType.Debug, "Creating scene info buffer.");
         _sceneInfoBuffer = device.CreateBuffer(BufferType.UniformBuffer, (uint) Unsafe.SizeOf<SceneInfo>(), true);
     }
 
@@ -178,23 +180,27 @@ public class Renderer : IDisposable
 
     public void Dispose()
     {
-        Logger.Debug("Disposing camera matrices buffer.");
+        LogMessage(LogType.Debug, "Disposing camera matrices buffer.");
         _cameraMatricesBuffer.Dispose();
         
-        Logger.Debug("Disposing scene info buffer.");
+        LogMessage(LogType.Debug, "Disposing scene info buffer.");
         _sceneInfoBuffer.Dispose();
         
-        Logger.Debug("Disposing sprite renderer.");
+        LogMessage(LogType.Debug, "Disposing sprite renderer.");
         SpriteRenderer.Dispose();
         
-        Logger.Debug("Disposing device.");
+        LogMessage(LogType.Debug, "Disposing device.");
         Device.Dispose();
         
-        Logger.Debug("Renderer disposal complete.");
+        LogMessage(LogType.Debug, "Renderer disposal complete.");
         Instance = null;
     }
+
+    internal void LogMessage(LogType type, string message) => Log.Invoke(type, message);
 
     public static Renderer Instance { get; private set; }
 
     public const string ShaderNamespace = "Sandcastle.Graphics.Shaders";
+
+    public delegate void OnLog(LogType type, string message);
 }

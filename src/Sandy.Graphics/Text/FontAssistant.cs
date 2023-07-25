@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
+using Pie;
 using Pie.Text;
-using Sandy.Core;
 using Sandy.Math;
 using FtChar = Pie.Text.Character;
 
@@ -47,7 +47,7 @@ internal class FontAssistant : IDisposable
     {
         if (!_characters.TryGetValue((c, size), out Character character))
         {
-            Logger.Debug($"Creating character '{c}'.");
+            Renderer.Instance.LogMessage(LogType.Debug, $"Creating character '{c}'.");
             
             _face.Size = (int) size;
             FtChar chr = _face.Characters[c];
@@ -69,13 +69,13 @@ internal class FontAssistant : IDisposable
                     _currentTexture++;
                     _currentPosition = Vector2T<int>.Zero;
                     
-                    Logger.Debug($"Creating new font texture with size {_textureSize}.");
+                    Renderer.Instance.LogMessage(LogType.Debug, $"Creating new font texture with size {_textureSize}.");
 
                     Texture2D fontTexture = new Texture2D(_textureSize, null);
 
                     if (Textures.Length <= _currentTexture)
                     {
-                        Logger.Debug("Resizing font texture array.");
+                        Renderer.Instance.LogMessage(LogType.Debug, "Resizing font texture array.");
                         Array.Resize(ref Textures, Textures.Length << 1);
                     }
 

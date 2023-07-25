@@ -2,7 +2,6 @@ using System;
 using System.IO;
 using System.Numerics;
 using System.Reflection;
-using Sandy.Core;
 using Sandy.Graphics.Renderers;
 using Sandy.Math;
 

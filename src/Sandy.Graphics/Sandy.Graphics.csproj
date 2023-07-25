@@ -24,5 +24,9 @@
         <None Remove="Text\Roboto-Regular.ttf" />
         <EmbeddedResource Include="Text\Roboto-Regular.ttf" />
     </ItemGroup>
+    
+    <ItemGroup>
+      <Folder Include="Exceptions\" />
+    </ItemGroup>
 
 </Project>

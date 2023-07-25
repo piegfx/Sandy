@@ -2,7 +2,6 @@ using System.Numerics;
 using System.Reflection;
 using Pie;
 using Pie.ShaderCompiler;
-using Sandy.Core;
 using Sandy.Graphics.Renderers.Structs;
 using Sandy.Graphics.Structs;
 using Sandy.Math;
@@ -53,7 +52,7 @@ public sealed class DeferredRenderer : Renderer3D
 
         CreateTargets(size, device);
 
-        Logger.Debug("Creating G-buffer shader.");
+        Renderer.Instance.LogMessage(LogType.Debug, "Creating G-buffer shader.");
         
         Assembly assembly = Assembly.GetExecutingAssembly();
         
@@ -65,7 +64,7 @@ public sealed class DeferredRenderer : Renderer3D
             new ShaderAttachment(ShaderStage.Fragment, fragSpv, "PixelShader")
         });
         
-        Logger.Debug("Creating G-buffer input layout.");
+        Renderer.Instance.LogMessage(LogType.Debug, "Creating G-buffer input layout.");
 
         _gBufferLayout = device.CreateInputLayout(new[]
         {
@@ -76,7 +75,7 @@ public sealed class DeferredRenderer : Renderer3D
             new InputLayoutDescription(Format.R32G32B32_Float, 48, 0, InputType.PerVertex), // tangent
         });
         
-        Logger.Debug("Creating light pass shader.");
+        Renderer.Instance.LogMessage(LogType.Debug, "Creating light pass shader.");
         vertSpv = Utils.LoadEmbeddedResource(assembly, Renderer.ShaderNamespace + ".Render.Deferred.LightPass_vert.spv");
         fragSpv = Utils.LoadEmbeddedResource(assembly, Renderer.ShaderNamespace + ".Render.Deferred.LightPass_frag.spv");
 
@@ -89,11 +88,11 @@ public sealed class DeferredRenderer : Renderer3D
             new SpecializationConstant(0, (uint) (device.Api is GraphicsApi.OpenGL or GraphicsApi.OpenGLES ? 1 : 0))
         });
 
-        Logger.Debug("Creating draw info buffer.");
+        Renderer.Instance.LogMessage(LogType.Debug, "Creating draw info buffer.");
         _drawInfo = new DrawInfo();
         _drawInfoBuffer = device.CreateBuffer(BufferType.UniformBuffer, _drawInfo, true);
         
-        Logger.Debug("Creating various states.");
+        Renderer.Instance.LogMessage(LogType.Debug, "Creating various states.");
         _depthStencilState = device.CreateDepthStencilState(DepthStencilStateDescription.LessEqual);
         _blendState = device.CreateBlendState(BlendStateDescription.Disabled);
 
@@ -170,7 +169,7 @@ public sealed class DeferredRenderer : Renderer3D
 
     internal override void Resize(Size<int> newSize)
     {
-        Logger.Debug($"Recreating render targets at size {newSize}.");
+        Renderer.Instance.LogMessage(LogType.Debug, $"Recreating render targets at size {newSize}.");
         
         DisposeTargets();
         CreateTargets(newSize, Renderer.Instance.Device);
@@ -190,7 +189,7 @@ public sealed class DeferredRenderer : Renderer3D
 
     private void CreateTargets(Size<int> size, GraphicsDevice device)
     {
-        Logger.Debug("Creating G-buffer.");
+        Renderer.Instance.LogMessage(LogType.Debug, "Creating G-buffer.");
 
         // We can reuse this description many times for all the different textures.
         TextureDescription description = TextureDescription.Texture2D(size.Width, size.Height,
@@ -215,7 +214,7 @@ public sealed class DeferredRenderer : Renderer3D
             new FramebufferAttachment(DepthTexture)
         });
         
-        Logger.Debug("Creating main target.");
+        Renderer.Instance.LogMessage(LogType.Debug, "Creating main target.");
 
         _mainTargetTexture = device.CreateTexture(TextureDescription.Texture2D(size.Width, size.Height,
             Format.R8G8B8A8_UNorm, 1, 1, TextureUsage.Framebuffer | TextureUsage.ShaderResource));
@@ -231,7 +230,7 @@ public sealed class DeferredRenderer : Renderer3D
 
     private void DisposeTargets()
     {
-        Logger.Debug("Disposing G-buffer.");
+        Renderer.Instance.LogMessage(LogType.Debug, "Disposing G-buffer.");
         
         GBuffer.Dispose();
         AlbedoTexture.Dispose();
@@ -240,7 +239,7 @@ public sealed class DeferredRenderer : Renderer3D
         MetallicRoughnessTexture.Dispose();
         DepthTexture.Dispose();
         
-        Logger.Debug("Disposing main targets.");
+        Renderer.Instance.LogMessage(LogType.Debug, "Disposing main targets.");
         _mainTargetFb.Dispose();
         _mainTargetTexture.Dispose();
     }
