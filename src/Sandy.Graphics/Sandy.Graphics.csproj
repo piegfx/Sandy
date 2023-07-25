@@ -10,7 +10,6 @@
     <ItemGroup>
       <ProjectReference Include="..\..\Pie\src\Pie.Text\Pie.Text.csproj" />
       <ProjectReference Include="..\..\Pie\src\Pie\Pie.csproj" />
-      <ProjectReference Include="..\Sandy.Core\Sandy.Core.csproj" />
       <ProjectReference Include="..\Sandy.Math\Sandy.Math.csproj" />
     </ItemGroup>
 

@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pie", "Pie\src\Pie\Pie.cspr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pie.Windowing", "Pie\src\Pie.Windowing\Pie.Windowing.csproj", "{C1C7EDE7-DE40-4C48-90AD-A68B70E26C11}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sandy.Math", "src\Sandy.Math\Sandy.Math.csproj", "{D0885C12-BC05-4C0C-B026-59C8DF19A626}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,10 @@ Global
 		{C1C7EDE7-DE40-4C48-90AD-A68B70E26C11}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1C7EDE7-DE40-4C48-90AD-A68B70E26C11}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C1C7EDE7-DE40-4C48-90AD-A68B70E26C11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0885C12-BC05-4C0C-B026-59C8DF19A626}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0885C12-BC05-4C0C-B026-59C8DF19A626}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0885C12-BC05-4C0C-B026-59C8DF19A626}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0885C12-BC05-4C0C-B026-59C8DF19A626}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{6630BF32-E4B5-4FA9-8D2D-FA9EE97F195E} = {DD1CDEEC-5FCF-4580-9E2C-52CCBAB3E61C}
