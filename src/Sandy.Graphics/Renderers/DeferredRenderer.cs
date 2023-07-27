@@ -110,7 +110,7 @@ public sealed class DeferredRenderer : Renderer3D
         GraphicsDevice device = Renderer.Instance.Device;
         device.SetFramebuffer(GBuffer);
         
-        device.ClearColorBuffer((System.Numerics.Vector4) Color.Transparent);
+        device.ClearColorBuffer(Color.Transparent);
         device.ClearDepthStencilBuffer(ClearFlags.Depth, 1.0f, 0);
 
         device.SetShader(_gBufferShader);
@@ -127,7 +127,7 @@ public sealed class DeferredRenderer : Renderer3D
         GraphicsDevice device = Renderer.Instance.Device;
         
         device.SetFramebuffer(MainTarget.PieFramebuffer);
-        device.ClearColorBuffer((Vector4) _camera.ClearColor.Value);
+        device.ClearColorBuffer(_camera.ClearColor.Value);
 
         device.SetRasterizerState(_rasterizerState);
         device.SetDepthStencilState(_drawDepthStencil);

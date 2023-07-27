@@ -44,7 +44,7 @@ public class MyApp : SandyApp
         // However, because of this, we do need to clear the color buffer manually.
 
         // TODO: Add a 2D renderer engine
-        Renderer.Device.ClearColorBuffer(System.Drawing.Color.CornflowerBlue);
+        Renderer.Device.ClearColorBuffer(Color.CornflowerBlue);
         
         Size<int> windowSize = Window.FramebufferSize;
         Size<int> textureSize = _texture.Size;

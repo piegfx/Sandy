@@ -79,7 +79,7 @@ public class Renderer : IDisposable
     public void EndFrame(bool debugDraw = false)
     {
         Device.SetFramebuffer(null);
-        Device.ClearColorBuffer((System.Numerics.Vector4) Color.Black);
+        Device.ClearColorBuffer(Color.Black);
 
         if (debugDraw)
         {

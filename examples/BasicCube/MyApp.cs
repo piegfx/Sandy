@@ -23,6 +23,8 @@ public class MyApp : SandyApp
     protected override void Initialize()
     {
         base.Initialize();
+        
+        Window.Resize += WindowOnResize;
 
         // Create our material from the textures.
         Material material = new Material(
@@ -105,6 +107,11 @@ public class MyApp : SandyApp
         sprite.Begin();
         _font.Draw(sprite, 36, "Hello, this is a spinning cube. This is how you can draw text!", Vector2.Zero, Color.White);
         sprite.End();
+    }
+    
+    private void WindowOnResize(Size<int> size)
+    {
+        Renderer.Resize(size);
     }
 
     public override void Dispose()
