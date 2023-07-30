@@ -18,7 +18,7 @@ namespace Sandy.Graphics;
 
 public class Renderer : IDisposable
 {
-    public event OnLog Log;
+    public static event OnLog Log = delegate { };
     
     private List<(Renderable, Matrix4x4)> _opaques;
 
@@ -43,8 +43,6 @@ public class Renderer : IDisposable
         
         Device = device;
         Instance = this;
-
-        Log = delegate { };
 
         VSync = vsync;
         

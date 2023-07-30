@@ -37,7 +37,12 @@ public abstract class SandyApp : IDisposable
         WindowBuilder builder = new WindowBuilder()
             .Size(_options.Size.Width, _options.Size.Height)
             .Title(_options.Title)
-            .FullscreenMode(_options.FullscreenMode);
+            .FullscreenMode(_options.FullscreenMode)
+            .GraphicsDeviceOptions(new GraphicsDeviceOptions()
+            {
+                ColorBufferFormat = _options.ColorBufferFormat,
+                DepthStencilBufferFormat = _options.DepthStencilBufferFormat
+            });
 
         if (_options.Resizable)
             builder.Resizable();
