@@ -29,4 +29,17 @@
       <Folder Include="Exceptions\" />
     </ItemGroup>
 
+    <ItemGroup>
+        <!--<Content Include="modelo.dll">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <Pack>true</Pack>
+            <PackagePath>runtimes/win-x64/native/</PackagePath>
+        </Content>-->
+        <Content Include="libmodelo.so">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <Pack>true</Pack>
+            <PackagePath>runtimes/linux-x64/native/</PackagePath>
+        </Content>
+    </ItemGroup>
+
 </Project>

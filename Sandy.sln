@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicSprite", "examples\Bas
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicCube", "examples\BasicCube\BasicCube.csproj", "{7B6E16E0-3D03-4789-9FF3-42CB49CC42E7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sandy.Tests", "tests\Sandy.Tests.csproj", "{53E69F02-4780-4054-8037-880133FA3CEA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,10 @@ Global
 		{7B6E16E0-3D03-4789-9FF3-42CB49CC42E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B6E16E0-3D03-4789-9FF3-42CB49CC42E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7B6E16E0-3D03-4789-9FF3-42CB49CC42E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53E69F02-4780-4054-8037-880133FA3CEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53E69F02-4780-4054-8037-880133FA3CEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53E69F02-4780-4054-8037-880133FA3CEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53E69F02-4780-4054-8037-880133FA3CEA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{6630BF32-E4B5-4FA9-8D2D-FA9EE97F195E} = {DD1CDEEC-5FCF-4580-9E2C-52CCBAB3E61C}
