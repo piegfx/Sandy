@@ -1,3 +1,6 @@
 [submodule "Pie"]
 	path = Pie
 	url = https://github.com/piegfx/Pie
+[submodule "modelo"]
+	path = modelo
+	url = https://github.com/piegfx/modelo
