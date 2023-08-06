@@ -13,13 +13,13 @@ public struct LightInfo
     
     public LightType Type;
 
-    public float Constant;
+    //public float Constant;
 
-    public float Linear;
+    //public float Linear;
 
-    public float Quadratic;
+    //public float Quadratic;
 
-    private float _padding;
+    //private float _padding;
 
     public enum LightType : uint
     {

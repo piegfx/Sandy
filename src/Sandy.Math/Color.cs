@@ -180,6 +180,11 @@ public struct Color
         return new Vector4(color.R, color.G, color.B, color.A);
     }
 
+    public static explicit operator Color(Vector4 vector)
+    {
+        return new Color(vector.X, vector.Y, vector.Z, vector.W);
+    }
+
     public override string ToString()
     {
         return "Color(R: " + Rb + ", G: " + Gb + ", B: " + Bb + ", A: " + Ab + ")";

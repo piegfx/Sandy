@@ -163,9 +163,14 @@ public sealed class DeferredRenderer : Renderer3D
 
         device.SetVertexBuffer(0, renderable.VertexBuffer, VertexPositionTextureColorNormalTangent.SizeInBytes,
             _gBufferLayout);
-        device.SetIndexBuffer(renderable.IndexBuffer, IndexType.UInt);
         
-        device.DrawIndexed(renderable.NumIndices);
+        if (renderable.IndexBuffer == null)
+            device.Draw(renderable.NumElements);
+        else
+        {
+            device.SetIndexBuffer(renderable.IndexBuffer, IndexType.UInt);
+            device.DrawIndexed(renderable.NumElements);
+        }
     }
 
     internal override void Resize(Size<int> newSize)
