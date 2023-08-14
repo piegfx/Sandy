@@ -14,7 +14,7 @@ cbuffer CameraMatrices : register(b0)
 TextureCube cubemap : register(t1);
 SamplerState state  : register(s1);
 
-VSOutput VertexShader(const float3 position: POSITION)
+VSOutput VertexShader(const in float3 position: POSITION)
 {
     VSOutput output;
 

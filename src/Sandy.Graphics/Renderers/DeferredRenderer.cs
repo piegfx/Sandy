@@ -47,6 +47,10 @@ public sealed class DeferredRenderer : Renderer3D
     // Used when drawing the G-Buffer to the main target.
     private DepthStencilState _drawDepthStencil;
 
+    // Used for drawing the skybox.
+    private Shader _skyboxShader;
+    private InputLayout _skyboxInputLayout;
+
     public DeferredRenderer(Size<int> size)
     {
         GraphicsDevice device = Renderer.Instance.Device;
@@ -101,6 +105,22 @@ public sealed class DeferredRenderer : Renderer3D
         _rasterizerState = device.CreateRasterizerState(RasterizerStateDescription.CullNone);
 
         _drawDepthStencil = device.CreateDepthStencilState(DepthStencilStateDescription.Disabled);
+        
+        Renderer.Instance.LogMessage(LogType.Debug, "Creating skybox shader.");
+        vertSpv = EmbeddedResource.Load(assembly, Renderer.ShaderNamespace + ".Environment.Skybox_vert.spv");
+        fragSpv = EmbeddedResource.Load(assembly, Renderer.ShaderNamespace + ".Environment.Skybox_frag.spv");
+
+        _skyboxShader = device.CreateShader(new[]
+        {
+            new ShaderAttachment(ShaderStage.Vertex, vertSpv, "VertexShader"),
+            new ShaderAttachment(ShaderStage.Fragment, fragSpv, "PixelShader")
+        });
+        
+        Renderer.Instance.LogMessage(LogType.Debug, "Creating skybox input layout.");
+        _skyboxInputLayout = device.CreateInputLayout(new[]
+        {
+            new InputLayoutDescription(Format.R32G32B32_Float, 0, 0, InputType.PerVertex) // position
+        });
     }
 
     internal override void BeginPass(in CameraInfo cameraInfo)
@@ -140,6 +160,17 @@ public sealed class DeferredRenderer : Renderer3D
         device.SetTexture(4, NormalTexture, _samplerState);
         device.SetTexture(5, MetallicRoughnessTexture, _samplerState);
         device.Draw(6);
+        
+        // Draw skybox
+        if (_camera.Skybox != null)
+        {
+            device.SetShader(_skyboxShader);
+            device.SetDepthStencilState(_depthStencilState);
+            device.SetTexture(1, _camera.Skybox.Texture.PieTexture, _samplerState);
+            device.SetVertexBuffer(0, _camera.Skybox.PrimitiveRenderable.VertexBuffer, VertexPositionTextureColorNormalTangent.SizeInBytes, _skyboxInputLayout);
+            device.SetIndexBuffer(_camera.Skybox.PrimitiveRenderable.IndexBuffer, IndexType.UInt);
+            device.DrawIndexed(_camera.Skybox.PrimitiveRenderable.NumElements);
+        }
     }
 
     internal override void Draw(Renderable renderable, in Matrix4x4 worldMatrix)

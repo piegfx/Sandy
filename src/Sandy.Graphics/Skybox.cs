@@ -21,5 +21,6 @@ public class Skybox : IDisposable
     public void Dispose()
     {
         Texture.Dispose();
+        PrimitiveRenderable.Dispose();
     }
 }
