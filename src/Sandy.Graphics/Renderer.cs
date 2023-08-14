@@ -88,8 +88,7 @@ public class Renderer : IDisposable
             
             if (_renderPassFont == null)
             {
-                _renderPassFont = new Font(EmbeddedResource.Load(Assembly.GetExecutingAssembly(),
-                    "Sandy.Graphics.Text.Roboto-Regular.ttf"));
+                _renderPassFont = Font.Roboto;
             }
 
             SpriteRenderer.Begin();
