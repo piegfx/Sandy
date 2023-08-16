@@ -78,7 +78,7 @@ public class Font : IDisposable
                 largestChar = character.Bearing.Y;
         }
 
-        totalSize.Height += largestChar;
+        pos.Y += largestChar;
 
         foreach (char c in text)
         {
@@ -93,12 +93,11 @@ public class Font : IDisposable
                 
                 default:
                     pos.X += character.Advance;
+                    if (pos.X > totalSize.Width)
+                        totalSize.Width = (int) pos.X;
                     break;
             }
         }
-
-        if (pos.X > totalSize.Width)
-            totalSize.Width = (int) pos.X;
 
         if (pos.Y > totalSize.Height)
             totalSize.Height = (int) pos.Y;

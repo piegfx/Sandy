@@ -4,7 +4,7 @@ using Sandy.Graphics.Materials;
 
 namespace Sandy.Graphics.Renderers;
 
-public class Renderable : IDisposable
+public struct Renderable : IDisposable
 {
     public GraphicsBuffer VertexBuffer;
     public GraphicsBuffer IndexBuffer;
