@@ -80,7 +80,8 @@ public sealed class SpriteRenderer : IDisposable
 
         _depthStencilState = device.CreateDepthStencilState(DepthStencilStateDescription.Disabled);
         _rasterizerState = device.CreateRasterizerState(RasterizerStateDescription.CullClockwise);
-        _blendState = device.CreateBlendState(BlendStateDescription.NonPremultiplied);
+        // TODO: This works, but a more permanent change is due.
+        _blendState = device.CreateBlendState(BlendStateDescription.NonPremultiplied with { ColorWriteMask = ColorWriteMask.Red | ColorWriteMask.Green | ColorWriteMask.Blue });
 
         _samplerState = device.CreateSamplerState(SamplerStateDescription.LinearClamp);
 
