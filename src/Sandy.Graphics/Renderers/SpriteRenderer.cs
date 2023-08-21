@@ -89,7 +89,8 @@ public sealed class SpriteRenderer : IDisposable
         _currentSprite = 0;
     }
 
-    public void Draw(Texture2D texture, Vector2 position, Rectangle<int>? source, Color tint, float rotation, Vector2 scale, Vector2 origin, Flip flip = Flip.None)
+    public void Draw(Texture2D texture, Vector2 topLeft, Vector2 topRight, Vector2 bottomLeft, Vector2 bottomRight,
+        Rectangle<int>? source, Color tint, float rotation, Vector2 scale, Vector2 origin, Flip flip = Flip.None)
     {
         if (!_hasBegun)
             throw new SpriteSessionException("There is no currently active sprite renderer session.");
@@ -122,18 +123,18 @@ public sealed class SpriteRenderer : IDisposable
             texY = 1f - texY;
         }
 
+        uint currentVertex = _currentSprite * NumVertices;
+        uint currentIndex = _currentSprite * NumIndices;
+        
         float x = -origin.X * scale.X;
         float y = -origin.Y * scale.Y;
         float w = srcRect.Width * scale.X;
         float h = srcRect.Height * scale.Y;
 
-        uint currentVertex = _currentSprite * NumVertices;
-        uint currentIndex = _currentSprite * NumIndices;
-
-        _vertices[currentVertex + 0] = new SpriteVertex(new Vector2(x, y), position, new Vector2(texX, texY), tint, rotation);
-        _vertices[currentVertex + 1] = new SpriteVertex(new Vector2(x + w, y), position, new Vector2(texX + texW, texY), tint, rotation);
-        _vertices[currentVertex + 2] = new SpriteVertex(new Vector2(x + w, y + h), position, new Vector2(texX + texW, texY + texH), tint, rotation);
-        _vertices[currentVertex + 3] = new SpriteVertex(new Vector2(x, y + h), position, new Vector2(texX, texY + texH), tint, rotation);
+        _vertices[currentVertex + 0] = new SpriteVertex(Vector2.Zero, topLeft, new Vector2(texX, texY), tint, rotation);
+        _vertices[currentVertex + 1] = new SpriteVertex(topRight - topLeft, topLeft, new Vector2(texX + texW, texY), tint, rotation);
+        _vertices[currentVertex + 2] = new SpriteVertex(bottomRight - topLeft, topLeft, new Vector2(texX + texW, texY + texH), tint, rotation);
+        _vertices[currentVertex + 3] = new SpriteVertex(bottomLeft - topLeft, topLeft, new Vector2(texX, texY + texH), tint, rotation);
 
         _indices[currentIndex + 0] = 0 + currentVertex;
         _indices[currentIndex + 1] = 1 + currentVertex;
@@ -144,10 +145,29 @@ public sealed class SpriteRenderer : IDisposable
 
         _currentSprite++;
     }
+    
+    public void Draw(Texture2D texture, Vector2 position, Rectangle<int>? source, Color tint, float rotation, Vector2 scale, Vector2 origin, Flip flip = Flip.None)
+    {
+        Size<int> texSize = texture.Size;
+        Rectangle<int> srcRect = source ?? new Rectangle<int>(Vector2T<int>.Zero, texSize);
+
+        float x = position.X;
+        float y = position.Y;
+        float w = srcRect.Width * scale.X;
+        float h = srcRect.Height * scale.Y;
+
+        Draw(texture, new Vector2(x, y), new Vector2(x + w, y), new Vector2(x, y + h), new Vector2(x + w, y + h),
+            source, tint, rotation, scale, origin, flip);
+    }
 
     public void DrawRectangle(Vector2 position, Size<float> size, Color color)
     {
         Draw(Texture2D.White, position, null, color, 0, new Vector2(size.Width, size.Height), Vector2.Zero);
+    }
+
+    public void DrawRectangle(Vector2 topLeft, Vector2 topRight, Vector2 bottomLeft, Vector2 bottomRight, Color color)
+    {
+        Draw(Texture2D.White, topLeft, topRight, bottomLeft, bottomRight, null, color, 0, Vector2.One, Vector2.Zero);
     }
 
     public void DrawBorder(Vector2 position, Size<float> size, float thickness, Color color)
