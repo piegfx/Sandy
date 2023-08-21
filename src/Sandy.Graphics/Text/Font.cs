@@ -22,6 +22,16 @@ public class Font : IDisposable
         _assistant = new FontAssistant(data);
     }
 
+    public void AddFace(string path)
+    {
+        _assistant.AddFace(File.ReadAllBytes(path));
+    }
+
+    public void AddFace(byte[] data)
+    {
+        _assistant.AddFace(data);
+    }
+
     public void Draw(SpriteRenderer renderer, uint size, string text, Vector2 position, Color color)
     {
         int largestChar = 0;

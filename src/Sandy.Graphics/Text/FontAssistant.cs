@@ -11,7 +11,7 @@ internal class FontAssistant : IDisposable
 {
     public static readonly FreeType FreeType;
 
-    private Face _face;
+    private List<Face> _faces;
 
     public Texture2D[] Textures;
     private uint _currentTexture;
@@ -32,7 +32,10 @@ internal class FontAssistant : IDisposable
 
     public FontAssistant(byte[] data)
     {
-        _face = FreeType.CreateFace(data, 0);
+        _faces = new List<Face>()
+        {
+            FreeType.CreateFace(data)
+        };
 
         Textures = new Texture2D[4];
         _currentTexture = 0;
@@ -43,14 +46,31 @@ internal class FontAssistant : IDisposable
         Textures[0] = new Texture2D(_textureSize, null);
     }
 
+    public void AddFace(byte[] data)
+    {
+        _faces.Add(FreeType.CreateFace(data));
+    }
+
     public Character GetCharacter(char c, uint size)
     {
         if (!_characters.TryGetValue((c, size), out Character character))
         {
             Renderer.Instance.LogMessage(LogType.Debug, $"Creating character '{c}'.");
+
+            Face face = null;
+            foreach (Face f in _faces)
+            {
+                if (f.CharacterExists(c))
+                {
+                    face = f;
+                    break;
+                }
+            }
+
+            if (face == null)
+                face = _faces[0];
             
-            _face.Size = (int) size;
-            FtChar chr = _face.Characters[c];
+            FtChar chr = face.GetCharacter(c, size);
 
             Size<int> chrSize = new Size<int>(chr.Width, chr.Height);
             
@@ -104,7 +124,8 @@ internal class FontAssistant : IDisposable
 
     public void Dispose()
     {
-        _face.Dispose();
+        foreach (Face face in _faces)
+            face.Dispose();
     }
 
     public struct Character
